@@ -11,6 +11,6 @@ def calculate_tip(bill, tip, num_people):
 
     shared_bill = total_bill / num_people
 
-    return shared_bill
+    return round(shared_bill, 2)
 
 print(f"Each person should pay: ${calculate_tip(bill, tip, num_people)}")
