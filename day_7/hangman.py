@@ -19,7 +19,7 @@ words = [
 
 number_of_lives = 6
 
-random_word = "bean" # random.choice(words)
+random_word = "giraffe" #random.choice(words)
 
 def check_letter_in_word(letter, word):
     if letter in word:
@@ -93,9 +93,13 @@ def generate_hangman(num_lives):
 dashes_array = ["_" for _ in random_word]
 
 while number_of_lives > 0:
-    
+
     choosen_letters = ' '.join(dashes_array)
     
+    if "_" not in choosen_letters:
+        print(f"***********************YOU GUESSED CORRECTLY! YOU WIN!**********************")
+        break
+
     print(f"Word to guess: {choosen_letters}")
     
     guessed_letter = input("Guess a letter: ")
@@ -115,10 +119,6 @@ while number_of_lives > 0:
         for i in range(0, len(random_word)):
             if random_word[i] == guessed_letter:
                 dashes_array[i] = guessed_letter
-        
-        if "_" not in choosen_letters:
-            print(f"***********************YOU GUESSED CORRECTLY! YOU WIN!**********************")
-            break
 
     else:
         number_of_lives -= 1
