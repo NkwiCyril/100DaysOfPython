@@ -1,11 +1,6 @@
-# TODO A
-# 1. Store all registered card numbers and pin codes in dictionary, registered_bank_cards
-# 2. User input the card number
-# 3. Check if card number in verified card numbers
-
 registered_card_numbers = {
     "0000": {
-        "name": "John Doe",
+        "name": "Nkwi Cyril Akinimbom",
         "pin_code": 0000,
         "balance": 10000000
     },
@@ -57,51 +52,104 @@ def check_pin_code(card_number, pin_code):
     return registered_card_numbers[card_number]["pin_code"] == pin_code
 
 
+def check_balance(card_number, choosen_amount):
+    return registered_card_numbers[card_number]["balance"] > choosen_amount
+
+
+ATM_HEADER = """
+****************************************************
+*                                                  *
+*        █████╗ ████████╗███╗   ███╗               *
+*       ██╔══██╗╚══██╔══╝████╗ ████║               *
+*       ███████║   ██║   ██╔████╔██║               *
+*       ██╔══██║   ██║   ██║╚██╔╝██║               *
+*       ██║  ██║   ██║   ██║ ╚═╝ ██║               *
+*       ╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚═╝               *
+*                                                  *
+*          SIMULATED PYTHON ATM MACHINE            *
+****************************************************
+"""
+
+ATM_FOOTER = """
+****************************************************
+*            THANK YOU FOR USING PY-ATM!           *
+****************************************************
+"""
+
 while True:
+    print(ATM_HEADER)
 
     attempts = 2
 
-    print(f"Card in session (BEFORE): {card_in_session}")
-
-    card_number = input("Insert your card number: ")
-
+    card_number = input("💳 Insert your card number: ").strip()
     card_in_session.append(card_number)
 
-    print(f"Card in session (AFTER): {card_in_session}")
-
     if check_card_number(card_in_session[0]):
-
-        print("\n***********************************************************")
-        print(f"\t\tWELCOME {registered_card_numbers[card_number]["name"]}!")
-        print("***********************************************************\n")
+        print("\n" + "*" * 55)
+        print(f"   ✅ WELCOME, {registered_card_numbers[card_number]['name']}!")
+        print("*" * 55 + "\n")
 
         pin_verified = False
 
         while attempts > 0:
-
             attempts -= 1
-
-            pin_code = int(input("Input your 4-digit PIN code: "))
+            pin_code = int(input("🔑 Enter your 4-digit PIN code: "))
 
             if check_pin_code(card_number, pin_code):
                 pin_verified = True
                 break
-
             else:
-                print("Incorrect pin code\n")
+                print("❌ Incorrect pin code\n")
 
         if attempts <= 0 and not pin_verified:
-            print("You have surpassed the number of attempts")
-            print("Removing card...\n")
-
+            print("⚠️  Too many incorrect attempts! Card removed.\n")
             card_in_session.pop()
             continue
 
         if pin_verified:
-            print("Proceed with withdrawal...")
+            amounts = [10000, 20000, 50000, 100000, 150000, "Key Amount"]
+            options = []
+
+            print("\n💵 Choose a withdrawal amount:\n")
+            print("----------------------------------------------------")
+            for i, amount in enumerate(amounts, start=0):
+                print(f"  {i}. {amount}")
+                options.append(i)
+            print("----------------------------------------------------\n")
+
+            while True:
+                choice = int(input("👉 Your choice: "))
+
+                if choice in options:
+                    if choice == amounts.index("Key Amount"):
+                        key_amount = int(input("Enter custom amount (XAF): "))
+
+                        if check_balance(card_in_session[0], key_amount):
+                            registered_card_numbers[card_in_session[0]]["balance"] -= key_amount
+                            print("\n✅ Withdrawal successful!")
+                            print(f"💰 Remaining Balance: {registered_card_numbers[card_in_session[0]]['balance']} XAF\n")
+
+                            card_in_session.pop()
+                            break
+                        else:
+                            print("⚠️ Insufficient balance!\n")
+
+                    else:
+                        if check_balance(card_in_session[0], amounts[choice]):
+                            registered_card_numbers[card_in_session[0]]["balance"] -= amounts[choice]
+                            print("\n✅ Withdrawal successful!")
+                            print(f"💰 Remaining Balance: {registered_card_numbers[card_in_session[0]]['balance']} XAF\n")
+
+                            card_in_session.pop()
+                            break
+                        else:
+                            print("⚠️ Insufficient balance!\n")
+                else:
+                    print("❌ Invalid choice. Try again.")
+                    continue
+
+        print(ATM_FOOTER)
 
     else:
-        print("Card is invalid")
-        print("Removing card...\n")
-
+        print("❌ Invalid card number. Card removed.\n")
         card_in_session.pop()
