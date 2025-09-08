@@ -45,6 +45,7 @@ questions_answers = [
 
 points = 0
 num_questions_answered = 0
+missed_questions = []
 
 for question_answer in questions_answers:
 
@@ -55,8 +56,20 @@ for question_answer in questions_answers:
         print("Correct! You get a point!\n")
     else:
         print("Incorrect!\n")
-    
+        missed_questions.append({
+            "question": question_answer["question"],
+            "correct_answer": question_answer["answer"],
+            "your_answer": answer
+        })
+
     num_questions_answered += 1
 
 print(f"Number of questions answered: {num_questions_answered}")
 print(f"Total points: {points}/{num_questions_answered}")
+
+if missed_questions:
+    print("\nYou missed the following questions:")
+    for idx, item in enumerate(missed_questions, start=1):
+        print(f"{idx}. {item['question']}")
+        print(f"   Correct answer: {item['correct_answer']}")
+        print(f"   Your answer:    {item['your_answer']}\n")
