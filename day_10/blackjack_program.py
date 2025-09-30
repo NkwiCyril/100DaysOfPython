@@ -41,10 +41,10 @@ if start_game.lower() == 'y':
         print(f"AMOUNT IN BANK: ${bank}\n")
 
         # Deal initial cards for player
-        while len(player_cards) < 2:
+        for _ in range(2):
             player_cards.append(deal_card())
 
-        while len(dealer_cards) < 2:
+        for _ in range(2):
             dealer_cards.append(deal_card())
 
         print(
