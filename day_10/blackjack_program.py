@@ -43,8 +43,6 @@ if start_game.lower() == 'y':
         # Deal initial cards for player
         for _ in range(2):
             player_cards.append(deal_card())
-
-        for _ in range(2):
             dealer_cards.append(deal_card())
 
         print(
