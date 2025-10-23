@@ -13,8 +13,11 @@ def choose_influencers():
         first_choice = random.choice(influencers)
         second_choice = random.choice(influencers)
 
-        if first_choice["name"] == second_choice["name"]:
-            continue
+        first_choice_name = first_choice["name"]
+        second_choice_name = second_choice["name"]
+
+        if first_choice_name == second_choice_name:
+            second_choice = random.choice(influencers)
         else:
             to_be_compared.append(first_choice)
             to_be_compared.append(second_choice)
