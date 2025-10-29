@@ -29,9 +29,13 @@ coffee_types = {
 
 # If user inputs "report" generate a list of the resources needed to make the coffee
 
-def generate_report(coffee_type): 
-    print("Generating report...")
-
+def generate_report(coffee_resources):
+    print()
+    print(f"Water: {coffee_resources["water"]}ml")
+    print(f"Milk: {coffee_resources["milk"]}ml")
+    print(f"Coffee: {coffee_resources["coffee"]}g")
+    print(f"Money: ${coffee_resources["money"]}")
+    print()
 
 # Check if resources available in the machine would be enough in order to make the coffee selected
 
@@ -64,16 +68,25 @@ while True:
 
     match user_choice:
         case "a":
-            print("You chose Latte")
-
             latte_resources = coffee_types["latte"]
+
+            show_resources = input("Show report? (Y or N): ").lower()
+
+            if show_resources == "y":
+                generate_report(latte_resources)
+            else:
+                continue
 
             availability = check_resources(latte_resources)
 
             if(availability[0] == True):
-                print("continue")
+
+                print("")
+                
             else:
                 print(availability[1])
+
+                continue
 
         case "b":
             print("You chose Espresso")
