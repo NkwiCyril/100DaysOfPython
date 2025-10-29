@@ -23,3 +23,4 @@ coffee_types = list(coffee.keys())
 
 print(coffee["espresso"]["water"])
 print(type(coffee_types))
+print(sum([1,2,4]))
